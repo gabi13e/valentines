@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Something For You</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Dancing+Script:wght@500;700&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+(function(){
+  emailjs.init("9zsNXeAJtnYiKMS-O"); // Your Public Key
+})();
+</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -457,7 +464,7 @@ body {
     <div class="toast-title">hmm… maybe?</div>
     <div class="toast-sub">
        i respect the suspense.<br>
-  but i’m still rooting for yes 😉
+  but i'm still rooting for yes 😉
     </div>
     <button class="toast-reconsider" id="toast-close">fine… one more look →</button>
   </div>
@@ -701,6 +708,10 @@ $('yes-btn').addEventListener('touchend',e=>{e.preventDefault();triggerYes();});
 
 function triggerYes(){
   if($('success').classList.contains('visible')) return;
+  
+  // 🎉 SEND EMAIL NOTIFICATION! 🎉
+  sendEmailNotification();
+  
   $('shimmer').classList.add('active');
   const music=$('bg-music');
   music.volume=0; music.play().catch(()=>{});
@@ -719,6 +730,35 @@ function triggerYes(){
     $('success').classList.add('visible');
     document.body.style.transform='scale(1)';
   },700);
+}
+
+// ✨ EMAIL NOTIFICATION FUNCTION ✨
+function sendEmailNotification() {
+  const now = new Date();
+  const timestamp = now.toLocaleString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  
+  // Template parameters that match your EmailJS template
+  const templateParams = {
+    name: 'Chrisly',
+    message: '🎉 SHE SAID YES! 🎉',
+    timestamp: timestamp
+  };
+  
+  // Send email using your service and template
+  emailjs.send('service_tts96ov', 'template_iq3f6zw', templateParams)
+    .then(function(response) {
+      console.log('✅ Email sent successfully!', response.status, response.text);
+    }, function(error) {
+      console.log('❌ Email failed to send:', error);
+    });
 }
 
 function burstHearts(count=30){
