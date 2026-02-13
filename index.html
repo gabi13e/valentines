@@ -735,7 +735,7 @@ function triggerYes(){
 // ✨ EMAIL NOTIFICATION FUNCTION ✨
 function sendEmailNotification() {
   const now = new Date();
-  const timestamp = now.toLocaleString('en-US', {
+  const timeString = now.toLocaleString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -748,12 +748,12 @@ function sendEmailNotification() {
   // Template parameters that match your EmailJS template
   const templateParams = {
     name: 'Chrisly',
-    message: '🎉 SHE SAID YES! 🎉',
-    timestamp: timestamp
+    time: timeString,
+    message: '🎉 SHE SAID YES! 🎉'
   };
   
   // Send email using your service and template
-  emailjs.send('service_tts96ov', 'template_iq3f6zw', templateParams)
+  emailjs.send('service_tts96ov', 'template_5qg9d6g', templateParams)
     .then(function(response) {
       console.log('✅ Email sent successfully!', response.status, response.text);
     }, function(error) {
